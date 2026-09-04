@@ -1,0 +1,75 @@
+<Window x:Class="HearthstoneDeckTracker.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hearthstone Deck Tracker"
+        Width="520"
+        Height="420"
+        MinWidth="420"
+        MinHeight="360"
+        Background="{StaticResource WindowBackground}"
+        Foreground="{StaticResource TextPrimary}">
+    <DockPanel Margin="16">
+        <TextBlock DockPanel.Dock="Top"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Text="Hearthstone Deck Tracker"/>
+        <TextBlock DockPanel.Dock="Top"
+                   Margin="0,4,0,16"
+                   Foreground="{StaticResource TextMuted}"
+                   TextWrapping="Wrap"
+                   Text="Sidebar fallback. Skeleton only — Power.log is tailed read-only; no memory reading, injection, or packet sniffing."/>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,16,0,0">
+            <Button x:Name="EnsureLogConfigButton"
+                    Content="Ensure log.config"
+                    Padding="12,6"
+                    Margin="0,0,8,0"
+                    Click="EnsureLogConfigButton_OnClick"/>
+            <Button x:Name="ToggleOverlayButton"
+                    Content="Show overlay stub"
+                    Padding="12,6"
+                    Click="ToggleOverlayButton_OnClick"/>
+        </StackPanel>
+
+        <Border Background="{StaticResource PanelBackground}" Padding="12" CornerRadius="6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Foreground="{StaticResource TextMuted}" Text="log.config" Margin="0,0,12,8"/>
+                <TextBox x:Name="LogConfigPathText"
+                         Grid.Row="0" Grid.Column="1"
+                         IsReadOnly="True"
+                         Margin="0,0,0,8"
+                         TextWrapping="Wrap"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Foreground="{StaticResource TextMuted}" Text="Power.log" Margin="0,0,12,8"/>
+                <TextBox x:Name="PowerLogPathText"
+                         Grid.Row="1" Grid.Column="1"
+                         IsReadOnly="True"
+                         Margin="0,0,0,8"
+                         TextWrapping="Wrap"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Foreground="{StaticResource TextMuted}" Text="Status" Margin="0,0,12,8"/>
+                <TextBlock x:Name="StatusText"
+                           Grid.Row="2" Grid.Column="1"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,8"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                           Foreground="{StaticResource TextMuted}"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Bottom"
+                           Text="After writing log.config, restart Hearthstone so it creates Logs\Power.log. Install-path discovery, window tracking, and the Power.log state machine are not in this skeleton."/>
+            </Grid>
+        </Border>
+    </DockPanel>
+</Window>
