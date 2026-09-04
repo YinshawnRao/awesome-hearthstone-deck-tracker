@@ -1,0 +1,30 @@
+D 13:00:00.0000000 GameState.DebugPrintPower() - CREATE_GAME
+D 13:00:00.0000000 GameState.DebugPrintPower() -     GameEntity EntityID=1
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=CARDTYPE value=GAME
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=ZONE value=PLAY
+D 13:00:00.0000000 GameState.DebugPrintPower() -     Player EntityID=2 PlayerID=1 GameAccountId=[hi=1 lo=2]
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=CONTROLLER value=1
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=CARDTYPE value=PLAYER
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=PLAYER_ID value=1
+D 13:00:00.0000000 GameState.DebugPrintPower() -     Player EntityID=3 PlayerID=2 GameAccountId=[hi=3 lo=4]
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=CONTROLLER value=2
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=CARDTYPE value=PLAYER
+D 13:00:00.0000000 GameState.DebugPrintPower() -         tag=PLAYER_ID value=2
+D 13:00:00.0000001 GameState.DebugPrintPower() - TAG_CHANGE Entity=GameEntity tag=STATE value=RUNNING
+D 13:00:00.0000002 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=30 CardID=
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=ZONE value=DECK
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=CONTROLLER value=1
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=ENTITY_ID value=30
+D 13:00:00.0000002 GameState.DebugPrintPower() - FULL_ENTITY - Creating ID=40 CardID=
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=ZONE value=DECK
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=CONTROLLER value=2
+D 13:00:00.0000002 GameState.DebugPrintPower() -     tag=ENTITY_ID value=40
+D 13:00:01.0000000 GameState.DebugPrintPower() - SHOW_ENTITY - Updating Entity=[entityName=UNKNOWN ENTITY [cardType=INVALID] id=30 zone=DECK zonePos=0 cardId= player=1] CardID=CS2_029
+D 13:00:01.0000000 GameState.DebugPrintPower() -     tag=CONTROLLER value=1
+D 13:00:01.0000000 GameState.DebugPrintPower() -     tag=CARDTYPE value=SPELL
+D 13:00:01.0000000 GameState.DebugPrintPower() -     tag=ZONE value=HAND
+D 13:00:02.0000000 GameState.DebugPrintPower() - TAG_CHANGE Entity=[entityName=UNKNOWN ENTITY [cardType=INVALID] id=40 zone=DECK zonePos=0 cardId= player=2] tag=ZONE value=HAND
+D 13:00:03.0000000 GameState.DebugPrintPower() - SHOW_ENTITY - Updating Entity=[entityName=UNKNOWN ENTITY [cardType=INVALID] id=40 zone=HAND zonePos=1 cardId= player=2] CardID=EX1_562
+D 13:00:03.0000000 GameState.DebugPrintPower() -     tag=CONTROLLER value=2
+D 13:00:03.0000000 GameState.DebugPrintPower() -     tag=CARDTYPE value=MINION
+D 13:00:03.0000000 GameState.DebugPrintPower() -     tag=ZONE value=PLAY

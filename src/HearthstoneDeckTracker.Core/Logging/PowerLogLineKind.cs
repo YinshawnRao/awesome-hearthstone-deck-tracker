@@ -1,7 +1,8 @@
 namespace HearthstoneDeckTracker.Core.Logging;
 
 /// <summary>
-/// Coarse Power.log opcode classification. Not a full packet / entity state machine.
+/// Coarse Power.log opcode classification. Packet bodies (indented <c>tag=</c> lines)
+/// are applied by <see cref="PowerLogGameStateBuilder"/>.
 /// </summary>
 public enum PowerLogLineKind
 {
@@ -9,4 +10,9 @@ public enum PowerLogLineKind
     TagChange,
     ShowEntity,
     FullEntity,
+    CreateGame,
+    HideEntity,
+    TagValue,
+    GameEntity,
+    PlayerEntity,
 }

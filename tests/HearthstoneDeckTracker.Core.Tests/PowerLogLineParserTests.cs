@@ -18,6 +18,12 @@ public class PowerLogLineParserTests
     [InlineData(
         "D 12:00:00.0000000 GameState.DebugPrintPower() - BLOCK_START BlockType=PLAY Entity=... EffectCardId=System.Collections.Generic.List",
         PowerLogLineKind.Other)]
+    [InlineData("D 12:00:00.0000000 GameState.DebugPrintPower() - CREATE_GAME", PowerLogLineKind.CreateGame)]
+    [InlineData("D 12:00:00.0000000 GameState.DebugPrintPower() -     tag=ZONE value=HAND", PowerLogLineKind.TagValue)]
+    [InlineData("D 12:00:00.0000000 GameState.DebugPrintPower() -     GameEntity EntityID=1", PowerLogLineKind.GameEntity)]
+    [InlineData(
+        "D 12:00:00.0000000 GameState.DebugPrintPower() -     Player EntityID=2 PlayerID=1 GameAccountId=[hi=1 lo=2]",
+        PowerLogLineKind.PlayerEntity)]
     [InlineData("", PowerLogLineKind.Other)]
     public void Classify_KnownOpcodes(string line, PowerLogLineKind expected)
     {

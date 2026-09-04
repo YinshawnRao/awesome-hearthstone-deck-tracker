@@ -1,3 +1,7 @@
 namespace HearthstoneDeckTracker.Core.Logging;
 
-public readonly record struct ClassifiedPowerLogLine(PowerLogLineKind Kind, string Raw);
+public readonly record struct ClassifiedPowerLogLine(
+    PowerLogLineKind Kind,
+    string Raw,
+    string Payload,
+    string? SourceMethod);
