@@ -28,4 +28,41 @@ public static class HearthstonePaths
 
     public static string CombinePowerLogPath(string hearthstoneInstallDirectory) =>
         Path.Combine(hearthstoneInstallDirectory, "Logs", PowerLogFileName);
+
+    /// <summary>
+    /// Placeholder or empty values are not a real filesystem path — the UI should
+    /// show a status instead of starting a tail.
+    /// </summary>
+    public static bool IsUsablePowerLogPath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return false;
+        var trimmed = path.Trim().Trim('"');
+        if (trimmed.Contains('<', StringComparison.Ordinal) || trimmed.Contains('>', StringComparison.Ordinal))
+            return false;
+        return trimmed.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+    }
+
+    public static IEnumerable<string> CandidatePowerLogPaths()
+    {
+        foreach (var install in new[]
+                 {
+                     @"C:\Program Files (x86)\Hearthstone",
+                     @"C:\Program Files\Hearthstone",
+                 })
+        {
+            yield return CombinePowerLogPath(install);
+        }
+    }
+
+    public static string? FindExistingPowerLog()
+    {
+        foreach (var candidate in CandidatePowerLogPaths())
+        {
+            if (File.Exists(candidate))
+                return candidate;
+        }
+
+        return null;
+    }
 }

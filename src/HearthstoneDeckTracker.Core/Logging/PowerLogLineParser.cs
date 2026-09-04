@@ -8,36 +8,41 @@ public static class PowerLogLineParser
     public static ClassifiedPowerLogLine Parse(string? line)
     {
         line ??= string.Empty;
-        return new ClassifiedPowerLogLine(Classify(line), line);
+        PowerLogSyntax.TrySplit(line, out var sourceMethod, out var payload);
+        return new ClassifiedPowerLogLine(ClassifyPayload(payload), line, payload, sourceMethod);
     }
 
-    public static PowerLogLineKind Classify(string? line)
+    public static PowerLogLineKind Classify(string? line) => Parse(line).Kind;
+
+    public static PowerLogLineKind ClassifyPayload(string? payload)
     {
-        if (string.IsNullOrWhiteSpace(line))
+        if (string.IsNullOrWhiteSpace(payload))
             return PowerLogLineKind.Other;
 
-        // Typical shape: "D HH:MM:SS.fffffff GameState.DebugPrintPower() - TAG_CHANGE ..."
-        var payload = ExtractPayload(line);
+        var text = payload.Trim();
 
-        // TODO: Replace substring checks with a tokenizer (CREATE_GAME, BLOCK_*, META_DATA, ...).
-        if (ContainsOpcode(payload, "TAG_CHANGE"))
+        if (text.Equals("CREATE_GAME", StringComparison.Ordinal))
+            return PowerLogLineKind.CreateGame;
+        if (StartsWithOpcode(text, "TAG_CHANGE"))
             return PowerLogLineKind.TagChange;
-        if (ContainsOpcode(payload, "SHOW_ENTITY"))
+        if (StartsWithOpcode(text, "SHOW_ENTITY"))
             return PowerLogLineKind.ShowEntity;
-        if (ContainsOpcode(payload, "FULL_ENTITY"))
+        if (StartsWithOpcode(text, "FULL_ENTITY"))
             return PowerLogLineKind.FullEntity;
+        if (StartsWithOpcode(text, "HIDE_ENTITY"))
+            return PowerLogLineKind.HideEntity;
+        if (text.StartsWith("GameEntity ", StringComparison.Ordinal))
+            return PowerLogLineKind.GameEntity;
+        if (text.StartsWith("Player EntityID=", StringComparison.Ordinal))
+            return PowerLogLineKind.PlayerEntity;
+        if (text.StartsWith("tag=", StringComparison.Ordinal))
+            return PowerLogLineKind.TagValue;
 
         return PowerLogLineKind.Other;
     }
 
-    private static string ExtractPayload(string line)
-    {
-        var separator = line.IndexOf(" - ", StringComparison.Ordinal);
-        return separator >= 0 ? line[(separator + 3)..] : line;
-    }
-
-    private static bool ContainsOpcode(string payload, string opcode) =>
+    private static bool StartsWithOpcode(string payload, string opcode) =>
         payload.StartsWith(opcode, StringComparison.Ordinal)
-        || payload.Contains(opcode + ' ', StringComparison.Ordinal)
-        || payload.Contains(opcode + '-', StringComparison.Ordinal);
+        && (payload.Length == opcode.Length
+            || payload[opcode.Length] is ' ' or '-');
 }

@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>HearthstoneDeckTracker.Core</RootNamespace>
     <AssemblyName>HearthstoneDeckTracker.Core</AssemblyName>
-    <Description>Read-only Power.log ingest and game-state stubs. No memory reading, injection, or packet sniffing.</Description>
+    <Description>Read-only Power.log ingest and draw/play GameState spike. No memory reading, injection, or packet sniffing.</Description>
   </PropertyGroup>
 
 </Project>

@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Hearthstone Deck Tracker"
-        Width="520"
-        Height="420"
-        MinWidth="420"
-        MinHeight="360"
+        Width="560"
+        Height="640"
+        MinWidth="460"
+        MinHeight="480"
         Background="{StaticResource WindowBackground}"
         Foreground="{StaticResource TextPrimary}">
     <DockPanel Margin="16">
@@ -14,12 +14,12 @@
                    FontWeight="SemiBold"
                    Text="Hearthstone Deck Tracker"/>
         <TextBlock DockPanel.Dock="Top"
-                   Margin="0,4,0,16"
+                   Margin="0,4,0,12"
                    Foreground="{StaticResource TextMuted}"
                    TextWrapping="Wrap"
-                   Text="Sidebar fallback. Skeleton only — Power.log is tailed read-only; no memory reading, injection, or packet sniffing."/>
+                   Text="Read-only Power.log spike. No memory reading, injection, or packet sniffing. Draw/play tracking is a subset of the HearthSim game-state protocol."/>
 
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,16,0,0">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,12,0,0">
             <Button x:Name="EnsureLogConfigButton"
                     Content="Ensure log.config"
                     Padding="12,6"
@@ -41,6 +41,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -54,9 +56,9 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Foreground="{StaticResource TextMuted}" Text="Power.log" Margin="0,0,12,8"/>
                 <TextBox x:Name="PowerLogPathText"
                          Grid.Row="1" Grid.Column="1"
-                         IsReadOnly="True"
                          Margin="0,0,0,8"
-                         TextWrapping="Wrap"/>
+                         TextWrapping="Wrap"
+                         ToolTip="Full path to Logs\\Power.log, or a fixture file. Leave unset to skip tailing."/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Foreground="{StaticResource TextMuted}" Text="Status" Margin="0,0,12,8"/>
                 <TextBlock x:Name="StatusText"
@@ -64,11 +66,38 @@
                            TextWrapping="Wrap"
                            Margin="0,0,0,8"/>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                           Foreground="{StaticResource TextMuted}"
+                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
+                    <CheckBox x:Name="TailPowerLogCheck"
+                              Content="Tail Power.log"
+                              Foreground="{StaticResource TextPrimary}"
+                              VerticalAlignment="Center"
+                              Checked="TailPowerLogCheck_OnChanged"
+                              Unchecked="TailPowerLogCheck_OnChanged"/>
+                    <TextBlock Margin="16,0,0,0"
+                               Foreground="{StaticResource TextMuted}"
+                               VerticalAlignment="Center"
+                               Text="Reads the current file, then follows new lines."/>
+                </StackPanel>
+
+                <TextBlock x:Name="DeckSummaryText"
+                           Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                           Margin="0,0,0,8"
                            TextWrapping="Wrap"
-                           VerticalAlignment="Bottom"
-                           Text="After writing log.config, restart Hearthstone so it creates Logs\Power.log. Install-path discovery, window tracking, and the Power.log state machine are not in this skeleton."/>
+                           Text="Deck remaining —  waiting for Power.log"/>
+
+                <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                    <TextBlock DockPanel.Dock="Top"
+                               Foreground="{StaticResource TextMuted}"
+                               Margin="0,0,0,6"
+                               Text="Last events"/>
+                    <ListBox x:Name="EventList"
+                             Background="#1B1E24"
+                             Foreground="{StaticResource TextPrimary}"
+                             BorderBrush="#3A3F4B"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                </DockPanel>
             </Grid>
         </Border>
     </DockPanel>

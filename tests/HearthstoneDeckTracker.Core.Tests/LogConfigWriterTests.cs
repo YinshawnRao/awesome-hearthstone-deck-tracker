@@ -13,6 +13,17 @@ public class LogConfigWriterTests
         Assert.EndsWith(Path.Combine("Blizzard", "Hearthstone", "log.config"), path);
     }
 
+    [Theory]
+    [InlineData(null, false)]
+    [InlineData("", false)]
+    [InlineData("   ", false)]
+    [InlineData("<Hearthstone install>/Logs/Power.log", false)]
+    [InlineData(@"C:\Program Files (x86)\Hearthstone\Logs\Power.log", true)]
+    public void IsUsablePowerLogPath_RejectsPlaceholder(string? path, bool expected)
+    {
+        Assert.Equal(expected, HearthstonePaths.IsUsablePowerLogPath(path));
+    }
+
     [Fact]
     public void Ensure_WritesPowerAndLoadingScreenSections()
     {

@@ -47,6 +47,9 @@ bld/
 *.tmp_proj
 *_wpftmp.csproj
 *.log
+# Keep synthetic Power.log snippets used by Core tests
+!tests/**/Fixtures/
+!tests/**/Fixtures/*.log
 *.tlog
 *.vspscc
 *.vssscc
