@@ -133,7 +133,7 @@ public class HearthstoneJsonCatalogTests
         Assert.Equal("火球术", Assert.Single(hand).DisplayName);
         Assert.Equal(4, hand[0].Cost);
         Assert.Equal("CS2_029", hand[0].CardId);
-        Assert.Contains(hand[0].Tooltip, "CS2_029");
+        Assert.Contains("CS2_029", hand[0].Tooltip, StringComparison.Ordinal);
 
         Assert.Equal("奥妮克希亚", Assert.Single(played).DisplayName);
         Assert.Equal("奥妮克希亚", Assert.Single(seen).DisplayName);
