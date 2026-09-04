@@ -1,4 +1,5 @@
 using HearthstoneDeckTracker.Core.Logging;
+using Xunit;
 
 namespace HearthstoneDeckTracker.Core.Tests;
 
