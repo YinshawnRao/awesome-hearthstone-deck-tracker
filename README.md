@@ -16,6 +16,7 @@ This tool only:
 
 - Writes `%LOCALAPPDATA%\Blizzard\Hearthstone\log.config` so the **game itself** prints `Power.log` / `LoadingScreen.log`
 - Tail-reads those text files with `FileShare.ReadWrite`
+- Downloads HearthstoneJSON card metadata and rendered art into `%LOCALAPPDATA%\AwesomeHearthstoneDeckTracker\cache\` (see below)
 
 It does **not** include HearthMirror, memory readers, DLL injection, packet sniffing, Overwolf, or copies of [HearthSim/Hearthstone-Deck-Tracker](https://github.com/HearthSim/Hearthstone-Deck-Tracker) source.
 
@@ -23,9 +24,9 @@ It does **not** include HearthMirror, memory readers, DLL injection, packet snif
 
 ```
 HearthstoneDeckTracker.sln
-├── src/HearthstoneDeckTracker.App     WPF net8.0-windows (MainWindow sidebar + OverlayWindow stub)
-└── src/HearthstoneDeckTracker.Core    net8.0 class library (log ingest + GameState builder)
-tests/HearthstoneDeckTracker.Core.Tests   xUnit + Fixtures/*.log snippets
+├── src/HearthstoneDeckTracker.App     WPF net8.0-windows (MainWindow + OverlayWindow stub)
+└── src/HearthstoneDeckTracker.Core    net8.0 (Power.log ingest + HearthstoneJSON catalog)
+tests/HearthstoneDeckTracker.Core.Tests   xUnit + Fixtures/*.log + cards.zhCN.subset.json
 ```
 
 | Piece | Role now | Not in this spike |
@@ -34,13 +35,14 @@ tests/HearthstoneDeckTracker.Core.Tests   xUnit + Fixtures/*.log snippets
 | `PowerLogTailReader` | `FileStream` + `FileShare.ReadWrite` line tail | Persisted offset, last-`CREATE_GAME` seek |
 | `PowerLogLineParser` | Classify `CREATE_GAME` / `TAG_CHANGE` / `SHOW_ENTITY` / `FULL_ENTITY` / `tag=` | Full tokenizer for META_DATA / options |
 | `PowerLogGameStateBuilder` | Entity map + DECK↔HAND↔PLAY↔GRAVEYARD | Secrets, fatigue, discover, Battlegrounds |
-| `GameState` / `DeckRemaining` | Friendly remaining, hand, plays, opponent seen | Card names / dbfIds |
-| `MainWindow` | Status, **Tail Power.log**, last-N events | Live overlay binding |
+| `GameState` / `DeckRemaining` | Friendly remaining, hand, plays, opponent seen | dbfId-only APIs |
+| `HearthstoneJsonCatalog` | zhCN names / cost / rarity / class / type, 24h disk cache | HearthDb, live memory |
+| `CardArtCache` | Download 256x render PNGs, keyed by CardID | Overlay polish, 512x gallery |
+| `MainWindow` | 中文名 + 费用 + 缩略图 lists, catalog status, Tail | Live overlay binding |
 | `OverlayWindow` | `AllowsTransparency` + `Topmost` | Click-through, HS window tracking |
-| Card data | — | HearthstoneJSON / HearthDb |
 | Shipping | — | Velopack |
 
-Deck **code** parsing is not required here. A sibling reusable service lives in [YinshawnRao/hearthstone-decks-mcp](https://github.com/YinshawnRao/hearthstone-decks-mcp) and is optional for later wiring.
+Deck **code** parsing is not required here. A sibling reusable service lives in [YinshawnRao/hearthstone-decks-mcp](https://github.com/YinshawnRao/hearthstone-decks-mcp) (same HSJSON URL + art template). This repo implements the catalog in C# and does **not** spawn Node.
 
 ## Power.log spike
 
@@ -57,11 +59,39 @@ Handled packets (HearthSim [game-state protocol](https://hearthsim.info/docs/gam
 
 ### Limits
 
-- No secret helper, no mulligan UI, no card database, no overlay positioning
+- No secret helper, no mulligan UI, no overlay positioning
 - No CN-server / install-path research beyond a couple of default Windows guess paths
 - Large live `Power.log` files are replayed from the start when Tail is checked (no “seek last CREATE_GAME” yet)
 - Enchantments, SETASIDE/SECRET, Discover, The Coin edge cases, and spectator logs are out of scope
 - Still **no** memory reading, injection, or packet sniffing
+
+## Card names and art (HearthstoneJSON)
+
+MainWindow lists (套牌剩余 / 手牌 / 已打出 / 对手可见) show **中文名** and mana cost. The Power.log `CardID` (e.g. `CS2_029`) stays on the tooltip. Unknown IDs render as the raw string and do not crash.
+
+On startup (and again on first Tail if the catalog is still empty) the app loads:
+
+`https://api.hearthstonejson.com/v1/latest/zhCN/cards.json`
+
+Full `cards.json` is used (not collectible-only) so tokens and other non-collectible IDs that appear in logs still resolve. The JSON is cached at:
+
+`%LOCALAPPDATA%\AwesomeHearthstoneDeckTracker\cache\cards.zhCN.json`
+
+TTL is 24 hours. If the network fetch fails, the last good file is used and the status line shows **离线缓存**. First run needs network; later launches work offline until the cache is deleted.
+
+Card art is **downloaded once** and stored under:
+
+`%LOCALAPPDATA%\AwesomeHearthstoneDeckTracker\cache\art\zhCN\256x\{CARD_ID}.png`
+
+from `https://art.hearthstonejson.com/v1/render/latest/zhCN/256x/{CARD_ID}.png`. The UI reads the local file; it does not hotlink art for every redraw.
+
+**IP note:** Card names and rendered art are Blizzard / Hearthstone intellectual property, delivered via [HearthstoneJSON](https://hearthstonejson.com/). This cache is for **personal local display in this unofficial tracker only**. Do not redistribute the downloaded JSON or PNG files.
+
+Catalog status in the window:
+
+- `卡表加载中` — fetch / disk read in progress
+- `已加载 N 张` — catalog ready (network or fresh cache)
+- `离线缓存` — fetch failed, stale file reused
 
 ### How to run tests
 
@@ -69,7 +99,7 @@ Handled packets (HearthSim [game-state protocol](https://hearthsim.info/docs/gam
 dotnet test tests/HearthstoneDeckTracker.Core.Tests/HearthstoneDeckTracker.Core.Tests.csproj
 ```
 
-Fixtures live in `tests/HearthstoneDeckTracker.Core.Tests/Fixtures/` (`minimal_draw_play.log`, `opponent_reveal.log`). They are synthetic but use real opcode / entity-bracket shapes.
+Fixtures live in `tests/HearthstoneDeckTracker.Core.Tests/Fixtures/` (`minimal_draw_play.log`, `opponent_reveal.log`, `cards.zhCN.subset.json`). Log snippets are synthetic but use real opcode / entity-bracket shapes. Catalog tests parse the subset fixture and mock HTTP — they do **not** require live network.
 
 ## Build
 
@@ -95,4 +125,4 @@ After **Ensure log.config**, restart Hearthstone so it creates `Logs\Power.log` 
 
 ## Status
 
-Power.log draw/play spike. Out of scope: full secret helper, mulligan UI, card DB download, overlay positioning, CN-server research, Velopack.
+Power.log draw/play spike plus zhCN HearthstoneJSON names/art cache. Out of scope: full secret helper, mulligan UI, overlay positioning, CN-server research, Velopack, HearthMirror.

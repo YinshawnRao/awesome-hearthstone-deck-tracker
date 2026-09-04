@@ -9,7 +9,8 @@ namespace HearthstoneDeckTracker.Core.Logging;
 /// <remarks>
 /// Spike limits: only <c>GameState.DebugPrintPower</c> / <c>DebugPrintGame</c> (PowerTaskList
 /// is ignored so the same packets are not applied twice). Tracks DECK↔HAND↔PLAY↔GRAVEYARD
-/// for paper-visible draws, plays, and opponent reveals. No secrets helper, no card DB.
+/// for paper-visible draws, plays, and opponent reveals. No secrets helper.
+/// Card names/art are resolved by <c>HearthstoneJsonCatalog</c> in the UI, not here.
 /// Protocol concepts: https://hearthsim.info/docs/gamestate-protocol/
 /// </remarks>
 public sealed class PowerLogGameStateBuilder

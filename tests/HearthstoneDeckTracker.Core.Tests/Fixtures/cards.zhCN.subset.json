@@ -1,0 +1,70 @@
+[
+  {
+    "id": "CS2_029",
+    "name": "火球术",
+    "cost": 4,
+    "rarity": "FREE",
+    "cardClass": "MAGE",
+    "type": "SPELL",
+    "collectible": true
+  },
+  {
+    "id": "EX1_169",
+    "name": "激活",
+    "cost": 0,
+    "rarity": "FREE",
+    "cardClass": "DRUID",
+    "type": "SPELL",
+    "collectible": true
+  },
+  {
+    "id": "CS2_172",
+    "name": "血沼迅猛龙",
+    "cost": 2,
+    "rarity": "FREE",
+    "cardClass": "NEUTRAL",
+    "type": "MINION",
+    "collectible": true
+  },
+  {
+    "id": "CS2_182",
+    "name": "冰风雪人",
+    "cost": 4,
+    "rarity": "COMMON",
+    "cardClass": "NEUTRAL",
+    "type": "MINION",
+    "collectible": true
+  },
+  {
+    "id": "EX1_562",
+    "name": "奥妮克希亚",
+    "cost": 9,
+    "rarity": "LEGENDARY",
+    "cardClass": "NEUTRAL",
+    "type": "MINION",
+    "collectible": true
+  },
+  {
+    "id": "HERO_01",
+    "name": "加尔鲁什·地狱咆哮",
+    "cardClass": "WARRIOR",
+    "type": "HERO",
+    "collectible": true
+  },
+  {
+    "id": "CS2_tk1",
+    "name": "绵羊",
+    "cost": 1,
+    "cardClass": "NEUTRAL",
+    "type": "MINION",
+    "collectible": false
+  },
+  {
+    "id": "",
+    "name": "should-be-skipped"
+  },
+  {
+    "name": "missing-id-skipped",
+    "cost": 1
+  }
+]
