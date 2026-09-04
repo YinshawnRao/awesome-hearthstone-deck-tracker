@@ -4,7 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>HearthstoneDeckTracker.Core</RootNamespace>
     <AssemblyName>HearthstoneDeckTracker.Core</AssemblyName>
-    <Description>Read-only Power.log ingest and draw/play GameState spike. No memory reading, injection, or packet sniffing.</Description>
+    <Description>Read-only Power.log ingest, draw/play GameState, and HearthstoneJSON zhCN catalog. No memory reading, injection, or packet sniffing.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="HearthstoneDeckTracker.Core.Tests" />
+  </ItemGroup>
 
 </Project>
