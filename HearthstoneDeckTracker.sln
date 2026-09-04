@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A11F0C3E-7B4A-4D91-9E2C-6F8A1B0D4C22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B22E1D4F-8C5B-4E02-A1D3-7E9C2F5A6B33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthstoneDeckTracker.Core", "src\HearthstoneDeckTracker.Core\HearthstoneDeckTracker.Core.csproj", "{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthstoneDeckTracker.App", "src\HearthstoneDeckTracker.App\HearthstoneDeckTracker.App.csproj", "{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HearthstoneDeckTracker.Core.Tests", "tests\HearthstoneDeckTracker.Core.Tests\HearthstoneDeckTracker.Core.Tests.csproj", "{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C33F2E5A-9D6C-4F13-B2E4-8A0D1C7B5E44} = {A11F0C3E-7B4A-4D91-9E2C-6F8A1B0D4C22}
+		{D44A3F6B-0E7D-4024-C3F5-9B1E2D8C6F55} = {A11F0C3E-7B4A-4D91-9E2C-6F8A1B0D4C22}
+		{E55B4A7C-1F8E-4135-D4A6-0C2F3E9D7A66} = {B22E1D4F-8C5B-4E02-A1D3-7E9C2F5A6B33}
+	EndGlobalSection
+EndGlobal

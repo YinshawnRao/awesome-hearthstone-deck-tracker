@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>HearthstoneDeckTracker.Core</RootNamespace>
+    <AssemblyName>HearthstoneDeckTracker.Core</AssemblyName>
+    <Description>Read-only Power.log ingest and game-state stubs. No memory reading, injection, or packet sniffing.</Description>
+  </PropertyGroup>
+
+</Project>
