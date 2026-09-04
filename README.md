@@ -43,7 +43,7 @@ Deck **code** parsing is not required here. A sibling reusable service lives in 
 
 ## Build
 
-Requires the **.NET 8 SDK**. The WPF app targets `net8.0-windows` with `UseWPF=true` and `PlatformTarget=x64`. **That project only compiles on Windows** (or a Windows targeting pack with WPF assemblies). Linux/macOS CI can still restore and build Core + tests.
+Requires the **.NET 8 SDK**. The WPF app targets `net8.0-windows` with `UseWPF=true` and `PlatformTarget=x64`. **Running the GUI requires Windows.** `Directory.Build.props` sets `EnableWindowsTargeting` so `dotnet build` of the WPF project can succeed on Linux agents; you still cannot launch the overlay/sidebar there. Linux/macOS CI should treat Core + tests as the portable slice.
 
 ```bash
 # Library + smoke tests (works on Linux/macOS/Windows)
